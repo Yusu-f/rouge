@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b0608;
+  --color-ink2: #150a0d;
+  --color-maroon: #2e0d12;
+  --color-wine: #52101c;
+  --color-crimson: #8e1024;
+  --color-rouge: #b4243c;
+  --color-blood: #d8354f;
+  --color-cream: #f2e7e0;
+  --color-mute: #a8908f;
+  --color-scarlet: #d7263d;
+  --color-bare: #c99b82;
+  --color-berry: #7a2048;
+  --color-coral: #ed6a5a;
+  --font-display: "Italiana", serif;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Jost", sans-serif;
+}
+
+html {
+  background: var(--color-ink);
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-rouge);
+  color: var(--color-ink);
+}
+
+/* hide native cursor when the custom one is active (fine pointers only) */
+@media (pointer: fine) {
+  body.has-cursor, body.has-cursor * {
+    cursor: none !important;
+  }
+}
+
+.kicker {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--color-mute);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.92;
+}
+
+.serif-i {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(180, 36, 60, 0.55), transparent);
+}
+
+/* custom cursor */
+#cursor-dot,
+#cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 100;
+  border-radius: 9999px;
+  will-change: transform;
+}
+#cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-blood);
+}
+#cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(216, 53, 79, 0.75);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+#cursor-ring.is-hover {
+  width: 64px;
+  height: 64px;
+  border-color: rgba(242, 231, 224, 0.9);
+  background: rgba(216, 53, 79, 0.12);
+}
+@media (pointer: coarse) {
+  #cursor-dot, #cursor-ring { display: none; }
+}
+
+/* film frame ring */
+.film-frame {
+  box-shadow: 0 0 0 1px rgba(180, 36, 60, 0.5), 0 40px 120px rgba(0, 0, 0, 0.8);
+}
+
+/* shade card sheen */
+.shade-card .sheen {
+  background: linear-gradient(115deg, transparent 30%, rgba(242, 231, 224, 0.14) 48%, transparent 62%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.shade-card:hover .sheen {
+  opacity: 1;
+}
+
+input::placeholder {
+  color: rgba(168, 144, 143, 0.6);
+}
