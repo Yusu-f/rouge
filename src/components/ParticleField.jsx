@@ -21,7 +21,7 @@ export default function ParticleField() {
 
     const isMobile = window.innerWidth < 768
     const N_PIGMENT = isMobile ? 22 : 46
-    const N_PETALS = isMobile ? 6 : 11
+    const N_PETALS = isMobile ? 12 : 26
     const parts = []
     const rand = (a, b) => a + Math.random() * (b - a)
 
@@ -58,14 +58,21 @@ export default function ParticleField() {
         vy: rand(0.04, 0.16),
         rot: rand(0, Math.PI * 2),
         vr: rand(-0.004, 0.004),
-        s: rand(26, 62),
-        a: rand(0.5, 0.95),
+        s: rand(22, 66),
+        a: rand(0.45, 0.95),
       })
     }
 
+    // cursor position + smoothed velocity (drives the "fling" when swiping)
     let mx = -9999
     let my = -9999
+    let mvx = 0
+    let mvy = 0
     const onMove = (e) => {
+      if (mx > -9000) {
+        mvx = mvx * 0.6 + (e.clientX - mx) * 0.4
+        mvy = mvy * 0.6 + (e.clientY - my) * 0.4
+      }
       mx = e.clientX
       my = e.clientY
     }
@@ -103,32 +110,52 @@ export default function ParticleField() {
       const dim = 1 - Math.min(1, Math.max(0, (st.film - 0.05) * 3)) * 0.92
       ctx.globalAlpha = dim
 
+      // cursor velocity decays between events so the fling dies down
+      mvx *= Math.pow(0.9, dt)
+      mvy *= Math.pow(0.9, dt)
+
       for (let i = parts.length - 1; i >= 0; i--) {
         const p = parts[i]
-        // cursor forces: repel < 130px, soft attract 130..320px
+        // cursor forces: hard repel + swipe-fling < 180px, soft attract 180..340px
         const dx = p.x - mx
         const dy = p.y - my
         const d2 = dx * dx + dy * dy
-        if (d2 < 130 * 130) {
+        if (d2 < 180 * 180) {
           const d = Math.sqrt(d2) || 1
-          const f = ((130 - d) / 130) * (p.kind === 'petal' ? 0.35 : 0.6)
-          p.vx += (dx / d) * f * dt
-          p.vy += (dy / d) * f * dt
-        } else if (d2 < 320 * 320) {
+          const n = 1 - d / 180
+          const f = n * n * (p.kind === 'petal' ? 1.15 : 0.9)
+          p.vx += ((dx / d) * f + mvx * 0.1 * n) * dt
+          p.vy += ((dy / d) * f + mvy * 0.1 * n) * dt
+          if (p.kind === 'petal') {
+            // torque: tangential component of the swipe spins the petal
+            p.vr += ((dx * mvy - dy * mvx) / (d * 1400)) * n * dt + (dx / d) * 0.008 * n * dt
+          }
+        } else if (d2 < 340 * 340) {
           const d = Math.sqrt(d2)
-          const f = 0.012 * (1 - d / 320)
+          const f = 0.03 * (1 - d / 340)
           p.vx -= (dx / d) * f * dt
           p.vy -= (dy / d) * f * dt
         }
-        // drift + drag
+        // drift + drag (petals keep more momentum, then settle)
         p.vx += Math.sin(now * 0.0003 + p.y * 0.01) * 0.004 * dt
-        p.vx *= 0.985
-        p.vy *= 0.985
+        const drag = p.kind === 'petal' ? 0.972 : 0.985
+        p.vx *= drag
+        p.vy *= drag
+        // speed cap so a violent swipe never launches petals into orbit
+        const sp2 = p.vx * p.vx + p.vy * p.vy
+        if (sp2 > 64) {
+          const s = 8 / Math.sqrt(sp2)
+          p.vx *= s
+          p.vy *= s
+        }
         if (p.kind === 'petal') p.vy += 0.006 * dt
         else p.vy += 0.002 * dt
         p.x += p.vx * dt * 1.6
         p.y += p.vy * dt * 1.6
-        if (p.rot !== undefined) p.rot += (p.vr + p.vx * 0.002) * dt * 1.6
+        if (p.rot !== undefined) {
+          p.rot += (p.vr + p.vx * 0.002) * dt * 1.6
+          p.vr *= 0.985 // spin settles back to lazy drift
+        }
 
         // burst particles decay
         if (p.life !== undefined) {
