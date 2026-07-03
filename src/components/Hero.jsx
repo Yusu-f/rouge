@@ -11,13 +11,13 @@ export default function Hero() {
       {/* parallax silk layers (GSAP drives data-parallax) */}
       <div className="absolute inset-0" aria-hidden="true">
         <img
-          src="/media/silk_black.jpg"
+          src={`${import.meta.env.BASE_URL}media/silk_black.jpg`}
           alt=""
           data-parallax="-14"
           className="absolute inset-0 h-[118%] w-full object-cover opacity-90"
         />
         <img
-          src="/media/silk_red.jpg"
+          src={`${import.meta.env.BASE_URL}media/silk_red.jpg`}
           alt=""
           data-parallax="-30"
           className="absolute inset-0 h-[126%] w-full object-cover opacity-45 mix-blend-lighten"

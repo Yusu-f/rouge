@@ -20,7 +20,7 @@ export default function FilmReveal() {
   return (
     <section id="film" className="relative flex h-screen items-center justify-center overflow-hidden bg-ink">
       <img
-        src="/media/silk_black.jpg"
+        src={`${import.meta.env.BASE_URL}media/silk_black.jpg`}
         alt=""
         className="absolute inset-0 h-full w-full object-cover opacity-50"
         aria-hidden="true"
@@ -34,8 +34,8 @@ export default function FilmReveal() {
       >
         <video
           ref={videoRef}
-          src="/media/film.mp4"
-          poster="/media/film_poster.jpg"
+          src={`${import.meta.env.BASE_URL}media/film.mp4`}
+          poster={`${import.meta.env.BASE_URL}media/film_poster.jpg`}
           muted
           loop
           playsInline

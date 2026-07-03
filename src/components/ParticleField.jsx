@@ -15,7 +15,7 @@ export default function ParticleField() {
     const petalImgs = []
     for (let i = 0; i < 6; i++) {
       const img = new Image()
-      img.src = `/media/petal_${i}.png`
+      img.src = `${import.meta.env.BASE_URL}media/petal_${i}.png`
       petalImgs.push(img)
     }
 

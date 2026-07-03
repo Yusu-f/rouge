@@ -81,7 +81,7 @@ export class TubeScene {
     this.scene.add(g)
 
     // --- case: wrapped cylinder
-    const tex = new THREE.TextureLoader().load('/media/case_wrap.jpg')
+    const tex = new THREE.TextureLoader().load(`${import.meta.env.BASE_URL}media/case_wrap.jpg`)
     tex.encoding = THREE.sRGBEncoding
     tex.wrapS = THREE.RepeatWrapping
     tex.offset.x = 0.5 // u=0 sits at +z (front): centre the logotype there

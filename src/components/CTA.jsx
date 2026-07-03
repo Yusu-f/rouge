@@ -14,7 +14,7 @@ export default function CTA() {
   return (
     <section id="cta" className="relative overflow-hidden">
       <div className="absolute inset-0" aria-hidden="true">
-        <img src="/media/hero.jpg" alt="" className="h-full w-full object-cover opacity-55" />
+        <img src={`${import.meta.env.BASE_URL}media/hero.jpg`} alt="" className="h-full w-full object-cover opacity-55" />
         <div className="absolute inset-0 bg-gradient-to-b from-ink via-ink/40 to-ink" />
       </div>
 

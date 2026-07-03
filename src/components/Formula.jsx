@@ -10,7 +10,7 @@ export default function Formula() {
     <section id="formula" className="relative bg-ink py-28 md:py-40">
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <img
-          src="/media/smear.jpg"
+          src={`${import.meta.env.BASE_URL}media/smear.jpg`}
           alt=""
           data-parallax="-12"
           className="absolute inset-0 h-[115%] w-full object-cover opacity-35"

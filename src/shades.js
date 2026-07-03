@@ -1,3 +1,5 @@
+const BASE = import.meta.env.BASE_URL
+
 export const SHADES = [
   {
     id: 'scarlet',
@@ -8,7 +10,7 @@ export const SHADES = [
     tint: 'rgba(215, 38, 61, 0.16)',
     finish: 'Velvet matte',
     line: 'The signature. A blue-red that flatters every undertone.',
-    img: '/media/shade_scarlet.jpg',
+    img: `${BASE}media/shade_scarlet.jpg`,
   },
   {
     id: 'bare',
@@ -19,7 +21,7 @@ export const SHADES = [
     tint: 'rgba(201, 155, 130, 0.14)',
     finish: 'Silk satin',
     line: 'Nude with a pulse. Skin, but better.',
-    img: '/media/shade_bare.jpg',
+    img: `${BASE}media/shade_bare.jpg`,
   },
   {
     id: 'berry',
@@ -30,7 +32,7 @@ export const SHADES = [
     tint: 'rgba(122, 32, 72, 0.18)',
     finish: 'Velvet matte',
     line: 'Plum depth, poured after dark.',
-    img: '/media/shade_berry.jpg',
+    img: `${BASE}media/shade_berry.jpg`,
   },
   {
     id: 'coral',
@@ -41,6 +43,6 @@ export const SHADES = [
     tint: 'rgba(237, 106, 90, 0.14)',
     finish: 'Silk satin',
     line: 'Sun-struck. A warm flare of orange-pink.',
-    img: '/media/shade_coral.jpg',
+    img: `${BASE}media/shade_coral.jpg`,
   },
 ]
